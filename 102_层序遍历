@@ -1,0 +1,45 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+/**
+ * Return an array of arrays of size *returnSize.
+ * The sizes of the arrays are returned as *returnColumnSizes array.
+ * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
+ */
+int** levelOrder(struct TreeNode* root, int* returnSize, int** returnColumnSizes) {
+    int** ret;
+    ret=(int**)malloc(sizeof(int*)*2001);
+    (*returnColumnSizes)=(int*)malloc(sizeof(int)*2001);
+    *returnSize=0;
+    struct TreeNode* list[2001];
+    if(root==NULL){
+        return ret;
+    }
+    struct TreeNode* p=root;
+    int front,rear;
+    front=0;
+    rear=0;
+    list[rear++]=root;
+    while(front<rear){
+        int size=rear-front;
+        ret[*returnSize]=(int*)malloc(sizeof(int)*size);
+        (*returnColumnSizes)[*returnSize]=size;
+        for(int i=0;i<size;i++){
+            struct TreeNode* t=list[front++];
+            ret[*returnSize][i]=t->val;
+            if(t->left!=NULL){
+            list[rear++]=t->left;
+            }
+            if(t->right!=NULL){
+            list[rear++]=t->right;
+            }
+        }
+        (*returnSize)++;
+    }
+    return ret;
+}
